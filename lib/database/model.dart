@@ -4,7 +4,7 @@ class RecipesDatabase {
   int? id;
   late int recipesId;
   late String recipesTitle;
-  late bool isChecked;
+  bool isChecked= false;
 
   RecipesDatabase({
     this.id,
@@ -23,6 +23,7 @@ class RecipesDatabase {
   Map<String, dynamic> toMap() {
     Map <String , dynamic> data = {};
     if (this.id != null) data[columnId] = this.id;
+    data[columnRecipeseId] = this.recipesId;
     data[columnRecipesTitle] = this.recipesTitle;
     data[columnIsChecked] = this.isChecked ? 1 : 0;
     return data;

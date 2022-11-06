@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:inter1/database/provider.dart';
 import 'package:inter1/fav_list.dart';
 import 'package:inter1/model/sec/details_model.dart';
@@ -17,7 +18,9 @@ class DetailsScreen extends StatefulWidget {
 class _DetailsScreenState extends State<DetailsScreen> {
   late Details responseObject;
 
+  final Future<List<RecipesDatabase>> data = RecipesProvider.instance.getRecipes();
   bool heart = false;
+      // recipesList[0].isChecked;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasData) {
             responseObject = snapshot.data;
-            print(responseObject.toMap().toString());
             return SafeArea(
               child: Scaffold(
                 appBar: AppBar(
@@ -40,16 +42,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     Padding(
                       padding: const EdgeInsets.only(right: 10.0),
                       child: IconButton(
-                        onPressed: () {
-                            // heart = !heart;
+                        onPressed: () async {
+                            heart = !heart;
                             print(heart);
-                            RecipesProvider.instance.insert(RecipesDatabase(
-                                isChecked: heart,
-                                recipesId: responseObject.id,
-                                recipesTitle: '${responseObject.title}'),);
-                            setState(() {});
-                            print(' fsdfs $recipesList');
-
+                            setState(() {
+                              RecipesProvider.instance.insert(RecipesDatabase(
+                                  isChecked: heart,
+                                  recipesId: responseObject.id,
+                                  recipesTitle: '${responseObject.title}'),);
+                            });
                         },
                         icon: heart
                             ? Icon(
@@ -86,22 +87,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(10.0),
-                          child: Text(
-                            (responseObject.instructions),
-                            style: TextStyle(
-                              fontSize: 15,
-                            ),
-                          ),
+                          child: Html(data: '${responseObject.instructions}',),
                         ),
-                        ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => FavList(),
-                                  ));
-                            },
-                            child: Text('child'))
                       ],
                     ),
                   ),

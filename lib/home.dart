@@ -7,8 +7,14 @@ import 'package:inter1/details_screen.dart';
 import 'package:inter1/model/first/model.dart';
 import 'package:inter1/network/first_api/recipes_list_api.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   late Recipes responseObject;
+
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +24,6 @@ class Home extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasData) {
             responseObject = snapshot.data;
-            print(responseObject.toMap().toString());
             return Scaffold(
               appBar: AppBar(
                 title: Text('Intermedit'),
@@ -89,23 +94,6 @@ class Home extends StatelessWidget {
                   ),
                 ),
               ),
-              bottomNavigationBar: BottomNavigationBar(
-
-                items: [
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    label: 'Home',
-                    backgroundColor: Colors.yellow,
-
-                ),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.favorite),
-                    label: 'Favorite',
-                    backgroundColor: Colors.yellow,
-
-                ),
-
-              ],),
             );
           }
           if (snapshot.hasError) {

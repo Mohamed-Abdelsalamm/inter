@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inter1/home.dart';
 
+import 'Navigetion.dart';
 import 'database/provider.dart';
 
 void main() async{
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: Home(),
+      home: Navigation(),
     );
   }
 }
